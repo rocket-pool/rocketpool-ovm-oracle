@@ -1,0 +1,4 @@
+ds-test/=lib/forge-std/lib/ds-test/src/
+forge-std/=lib/forge-std/src/
+@eth-optimism/=lib/optimism/packages/contracts
+@rocketpool/=lib/rocketpool/contracts
