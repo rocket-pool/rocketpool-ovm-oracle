@@ -45,8 +45,8 @@ contract RocketPriceOracleTest is Test {
             ovmL1CrossDomainMessenger
         );
         // Rate and last updated should be 0
-        uint256 rate = priceOracle.rate();
-        uint256 updated = priceOracle.lastUpdated();
+        uint256 rate = priceOracle.getRate();
+        uint256 updated = priceOracle.getLastUpdated();
         assertEq(updated, 0);
         assertEq(rate, 0);
     }
@@ -58,7 +58,7 @@ contract RocketPriceOracleTest is Test {
 
     function testOnlyOwnerCanSetOwner() public {
         priceOracle.setOwner(address(priceMessenger));
-        assertEq(priceOracle.owner(), address(priceMessenger));
+        assertEq(priceOracle.getOwner(), address(priceMessenger));
     }
 
     function testRateStale() public {
@@ -87,8 +87,8 @@ contract RocketPriceOracleTest is Test {
         // Send the updated rate
         priceMessenger.submitRate();
         // Check rate and lastUpdated were updated
-        uint256 rate = priceOracle.rate();
-        uint256 updated = priceOracle.lastUpdated();
+        uint256 rate = priceOracle.getRate();
+        uint256 updated = priceOracle.getLastUpdated();
         assertGt(updated, 0);
         assertEq(rate, 1 ether);
     }
@@ -97,8 +97,8 @@ contract RocketPriceOracleTest is Test {
         // Send the updated rate
         priceMessenger.submitRate();
         // Rate should not be updated
-        uint256 rate = priceOracle.rate();
-        uint256 updated = priceOracle.lastUpdated();
+        uint256 rate = priceOracle.getRate();
+        uint256 updated = priceOracle.getLastUpdated();
         assertEq(updated, 0);
         assertEq(rate, 0);
     }
@@ -124,7 +124,7 @@ contract RocketPriceOracleTest is Test {
         // Send the updated rate
         priceMessenger.submitRate();
         // Check rate and lastUpdated were updated
-        uint256 rate = priceOracle.rate();
+        uint256 rate = priceOracle.getRate();
         assertEq(rate, expectedRate);
     }
 }

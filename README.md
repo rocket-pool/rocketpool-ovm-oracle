@@ -11,8 +11,8 @@ freshness of the data. These contracts have not been formally audited for securi
 
 ## Usage
 
-Calling `rate()` on `RocketOvmPriceOracle` will return the latest rETH exchange rate reported. This value is in the form
-of the ETH value of 1 rETH. e.g. If 1 rETH is worth 1.5 ETH `rate()` will return 1.5e18. `lastUpdated()` can be called to
+Calling `getRate()` on `RocketOvmPriceOracle` will return the latest rETH exchange rate reported. This value is in the form
+of the ETH value of 1 rETH. e.g. If 1 rETH is worth 1.5 ETH `getRate()` will return 1.5e18. `getLastUpdated()` can be called to
 retrieve the timestamp that the rate was last updated.
 
 ## Deployments
@@ -23,4 +23,28 @@ integration testing before promotion to mainnet.
 | Chain | RocketOvmPriceMessenger (EVM) | RocketOvmPriceOracle (OVM) |
 | -- | -- | -- |
 | Mainnet | tba | tba |
-| Goerli | 0x87E2deCE7d0A080D579f63cbcD7e1629BEcd7E7d | 0xc6307a58556FDcF93255ad541dccacCC10b75eA4 |
+| Goerli | 0x3bF13C170a664e0CeAB1E878669F1Ef5A65280b5 | 0x96a6da00d79C6fa355B9D9f5b49488310E84D3a1 |
+
+### Goerli
+
+```
+export RPC_OPTIMISM=https://goerli.optimism.io
+export RPC_ETHEREUM=https://xxx
+export PRIVATE_KEY=xxx
+export ETHERSCAN_API_KEY=xxx
+
+forge create \
+  --legacy \
+  --rpc-url $RPC_OPTIMISM \
+  --private-key $PRIVATE_KEY \
+  src/RocketOvmPriceOracle.sol:RocketOvmPriceOracle \
+  --constructor-args 0x4200000000000000000000000000000000000007
+
+forge create \
+  --rpc-url $RPC_ETHEREUM \
+  --private-key $PRIVATE_KEY \
+  src/RocketOvmPriceMessenger.sol:RocketOvmPriceMessenger \
+  --constructor-args 0xd8cd47263414afeca62d6e2a3917d6600abdceb3 0x96a6da00d79C6fa355B9D9f5b49488310E84D3a1 0x5086d1eef304eb5284a0f6720f79403b4e9be294 \
+  --etherscan-api-key $ETHERSCAN_API_KEY \
+  --verify
+```
